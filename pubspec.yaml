@@ -1,0 +1,89 @@
+name: flutter_pokedex
+description: "Code challenge para Flutter Developers."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.4 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  #Riverpod
+  flutter_riverpod: ^2.5.1
+  #Riverpod generator
+  riverpod_annotation: ^2.3.5
+  build_runner: ^2.4.9
+  riverpod_generator: ^2.4.0
+  #Async for web
+  universal_io: ^2.2.2
+  #Utilities for math operations
+  intl: ^0.18.1
+  #Routing system
+  go_router: ^14.0.1
+  #Simulate a stream variable in local
+  rxdart: ^0.27.7
+  #Read SVG files
+  flutter_svg: ^2.0.10+1
+  #Make Http requests
+  http: ^1.2.1
+  #Generate native splash screen
+  flutter_native_splash: ^2.4.0
+  #Generate icons
+  flutter_launcher_icons: ^0.13.1
+  #Save files in local store
+  shared_preferences: ^2.2.3
+  #Shimmer effect
+  shimmer: ^3.0.0
+  #Cache network image
+  fast_cached_network_image: ^1.2.9
+  #Show more lint problems
+  custom_lint: ^0.6.4
+
+flutter_launcher_icons:
+  ios: true
+  android: true
+  remove_alpha_ios: true
+  image_path_ios: "assets/launcher/logo.png"
+  image_path_android: "assets/launcher/logo.png"
+  adaptive_icon_foreground: "assets/launcher/logo_foreground.png"
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: "assets/launcher/android12splash.png"
+  android: true
+  ios: true
+
+  android_12:
+    image: "assets/launcher/android12splash.png"
+    image_dark: "assets/launcher/android12splash.png"
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/icons/
+    - assets/launcher/
+    - assets/images/
+
+  fonts:
+    - family: Lato
+      fonts:
+        - asset: fonts/Lato-Regular.ttf
+        - asset: fonts/Lato-Bold.ttf
+          weight: 700
+
+    - family: PokemonGb
+      fonts:
+        - asset: fonts/PokemonGb-RAeo.ttf
+  
