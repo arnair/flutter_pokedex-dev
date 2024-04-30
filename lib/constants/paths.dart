@@ -1,4 +1,7 @@
 class Paths {
+  //Pokemons region
+  static const String regionName = 'kanto';
+
   //useMock
   static const bool mock = false;
 

@@ -1,49 +1,33 @@
-import 'package:flutter_pokedex/features/home/home_flow.dart';
-import 'package:flutter_pokedex/features/home/loading_animation.dart';
+import 'package:flutter_pokedex/features/pokemon/presentation/pokemon_screen.dart';
+import 'package:flutter_pokedex/features/search/presentation/search_screen.dart';
+import 'package:flutter_pokedex/features/search/presentation/start/loading_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'not_found_screen.dart';
 
-enum AppRoute { home, loading }
+enum AppRoute { loading, seach, pokemon }
 
 final goRouterProvider = Provider<GoRouter>((ref) {
-  // final userCreated = ref.watch(authStateChangesProvider);
-  // final authRepository = ref.watch(authRepositoryProvider);
-  // User? user = FirebaseAuth.instance.currentUser;
-  String verificationState = '';
-  int userRead = 0;
-
-  // userCreated.whenData((value) {
-  //   if (value == null) {
-  //     return;
-  //   } else {
-  //     ref.read(authRepositoryProvider).updateUserRoute(user: value);
-  //     verificationState = value.verificationState;
-  //   }
-  // });
   return GoRouter(
-    initialLocation: "/login",
+    initialLocation: "/",
     debugLogDiagnostics: false,
-    redirect: (context, state) async {
-      if (userRead < 2) {
-        userRead++;
-        return '/loading';
-      }
-      return null;
-    },
-    // refreshListenable: GoRouterRefreshStream(authRepository.authStateChanges()),
-    // refreshListenable: GoRouterRefreshStream(authRepository.authStateChanges()),
     routes: [
       GoRoute(
-        path: '/loading',
+        path: '/',
         name: AppRoute.loading.name,
-        builder: (context, state) => const LoadingAnimation(),
+        builder: (context, state) => const LoadingScreen(),
         routes: const [],
       ),
       GoRoute(
-        path: '/',
-        name: AppRoute.home.name,
-        builder: (context, state) => const HomeFlow(),
+        path: '/search',
+        name: AppRoute.seach.name,
+        builder: (context, state) => const SearchScreen(),
+        routes: const [],
+      ),
+      GoRoute(
+        path: '/pokemon',
+        name: AppRoute.pokemon.name,
+        builder: (context, state) => const PokemonScreen(),
         routes: const [],
       )
     ],
