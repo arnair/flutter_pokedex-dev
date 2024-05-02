@@ -1,4 +1,4 @@
-import 'package:flutter_pokedex/constants/import_theme.dart';
+import 'package:flutter_pokedex/constants/paths.dart';
 import 'package:flutter_pokedex/features/pokemon/data/pokemons_repository.dart';
 import 'package:flutter_pokedex/features/pokemon/domain/pokemon_model.dart';
 import 'package:flutter_pokedex/utils/in_memory_store.dart';
@@ -27,7 +27,6 @@ class PokemonService extends _$PokemonService {
     List<Pokemon> pokemonList = await ref
         .read(pokemonsRepositoryProvider)
         .fetchPokemons(pokemonNames: pokemonNames);
-    print('Here aaaaaaa');
 
     updateGlobalPokemonList(newGlobalPokemonList: pokemonList);
     return pokemonList;

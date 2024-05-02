@@ -20,7 +20,7 @@ class Pokedex extends ConsumerWidget {
       restorationScopeId: 'app',
       routerConfig: goRouter,
       debugShowCheckedModeBanner: false,
-      theme: CustomTheme.lightTheme(context),
+      theme: customTheme,
     );
   }
 }

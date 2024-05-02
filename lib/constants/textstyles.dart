@@ -1,61 +1,33 @@
 import 'package:flutter/material.dart';
-import 'import_theme.dart';
+import 'package:flutter_pokedex/constants/fonts.dart';
 
 class AppTextStyle {
-  //// Title
-  static const TextStyle title = TextStyle(
-    fontSize: 20,
+  //// PokemonNames
+  static const TextStyle normalWhite = TextStyle(
+    fontSize: 16,
+    fontFamily: Fonts.primary,
     fontWeight: FontWeight.bold,
-    color: Palette.grey,
-    letterSpacing: 0.15,
+    color: Colors.white,
   );
-
-  static const TextStyle titleRed = TextStyle(
+  //// PokemonTitle
+  static const TextStyle titleWhite = TextStyle(
     fontSize: 24,
+    fontFamily: Fonts.primary,
     fontWeight: FontWeight.bold,
-    color: Palette.red500,
-    letterSpacing: 0.15,
+    color: Colors.white,
   );
-
-  //// Text
-  static const TextStyle textBold = TextStyle(
-    fontSize: 16,
+  //// PokemonTitle
+  static const TextStyle titleBlack = TextStyle(
+    fontSize: 24,
+    fontFamily: Fonts.primary,
     fontWeight: FontWeight.bold,
-    color: Palette.grey,
-    letterSpacing: 0.5,
+    color: Colors.black,
   );
-
-  static const TextStyle textWhite = TextStyle(
+  //// Normal
+  static const TextStyle normalBlack = TextStyle(
     fontSize: 16,
+    fontFamily: Fonts.primary,
     fontWeight: FontWeight.normal,
-    color: Colors.white,
-    letterSpacing: 0.15,
-  );
-
-  static const TextStyle text = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.normal,
-    color: Palette.grey,
-  );
-
-  static const TextStyle textRed = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.normal,
-    color: Palette.red500,
-  );
-
-  //// Caption
-  static const TextStyle caption = TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.normal,
-    color: Palette.grey,
-    letterSpacing: 0.15,
-  );
-
-  static const TextStyle captionWhite = TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.normal,
-    color: Colors.white,
-    letterSpacing: 0.15,
+    color: Colors.black,
   );
 }

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
 // Web width
-
 int webWidth = 1150;
 
-/// Constant sizes to be used in the app (paddings, gaps, rounded corners etc.)
 class Sizes {
   static const p4 = 4.0;
   static const p8 = 8.0;

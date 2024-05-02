@@ -1,3 +1,4 @@
+import 'package:flutter_pokedex/features/pokemon/domain/pokemon_model.dart';
 import 'package:flutter_pokedex/features/pokemon/presentation/pokemon_screen.dart';
 import 'package:flutter_pokedex/features/search/presentation/search_screen.dart';
 import 'package:flutter_pokedex/features/search/presentation/start/loading_screen.dart';
@@ -25,10 +26,13 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         routes: const [],
       ),
       GoRoute(
-        path: '/pokemon',
+        path: '/pokemon/:name',
         name: AppRoute.pokemon.name,
-        builder: (context, state) => const PokemonScreen(),
-        routes: const [],
+        builder: (context, state) {
+          return PokemonScreen(
+            pokemon: state.extra as Pokemon,
+          );
+        },
       )
     ],
     errorBuilder: (context, state) => const NotFoundScreen(),

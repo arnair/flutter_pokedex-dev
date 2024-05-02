@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../constants/import_theme.dart';
-
 class AsyncValueWidget<T> extends StatelessWidget {
   const AsyncValueWidget({super.key, required this.value, required this.data});
   final AsyncValue<T> value;
@@ -18,7 +16,6 @@ class AsyncValueWidget<T> extends StatelessWidget {
         return const Center(
             child: Text(
           'Error',
-          style: AppTextStyle.textRed,
         ));
       },
       loading: () {

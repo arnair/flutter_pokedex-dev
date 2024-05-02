@@ -25,7 +25,7 @@ mixin _$Pokemon {
   String get photo => throw _privateConstructorUsedError;
   int get height => throw _privateConstructorUsedError;
   int get weight => throw _privateConstructorUsedError;
-  String get type => throw _privateConstructorUsedError;
+  List<PokemonTypes> get type => throw _privateConstructorUsedError;
   bool get captured => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -44,7 +44,7 @@ abstract class $PokemonCopyWith<$Res> {
       String photo,
       int height,
       int weight,
-      String type,
+      List<PokemonTypes> type,
       bool captured});
 }
 
@@ -93,7 +93,7 @@ class _$PokemonCopyWithImpl<$Res, $Val extends Pokemon>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as List<PokemonTypes>,
       captured: null == captured
           ? _value.captured
           : captured // ignore: cast_nullable_to_non_nullable
@@ -115,7 +115,7 @@ abstract class _$$PokemonImplCopyWith<$Res> implements $PokemonCopyWith<$Res> {
       String photo,
       int height,
       int weight,
-      String type,
+      List<PokemonTypes> type,
       bool captured});
 }
 
@@ -160,9 +160,9 @@ class __$$PokemonImplCopyWithImpl<$Res>
           : weight // ignore: cast_nullable_to_non_nullable
               as int,
       type: null == type
-          ? _value.type
+          ? _value._type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as List<PokemonTypes>,
       captured: null == captured
           ? _value.captured
           : captured // ignore: cast_nullable_to_non_nullable
@@ -180,8 +180,9 @@ class _$PokemonImpl implements _Pokemon {
       required this.photo,
       required this.height,
       required this.weight,
-      required this.type,
-      this.captured = false});
+      required final List<PokemonTypes> type,
+      this.captured = false})
+      : _type = type;
 
   factory _$PokemonImpl.fromJson(Map<String, dynamic> json) =>
       _$$PokemonImplFromJson(json);
@@ -196,8 +197,14 @@ class _$PokemonImpl implements _Pokemon {
   final int height;
   @override
   final int weight;
+  final List<PokemonTypes> _type;
   @override
-  final String type;
+  List<PokemonTypes> get type {
+    if (_type is EqualUnmodifiableListView) return _type;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_type);
+  }
+
   @override
   @JsonKey()
   final bool captured;
@@ -217,15 +224,15 @@ class _$PokemonImpl implements _Pokemon {
             (identical(other.photo, photo) || other.photo == photo) &&
             (identical(other.height, height) || other.height == height) &&
             (identical(other.weight, weight) || other.weight == weight) &&
-            (identical(other.type, type) || other.type == type) &&
+            const DeepCollectionEquality().equals(other._type, _type) &&
             (identical(other.captured, captured) ||
                 other.captured == captured));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, name, photo, height, weight, type, captured);
+  int get hashCode => Object.hash(runtimeType, id, name, photo, height, weight,
+      const DeepCollectionEquality().hash(_type), captured);
 
   @JsonKey(ignore: true)
   @override
@@ -248,7 +255,7 @@ abstract class _Pokemon implements Pokemon {
       required final String photo,
       required final int height,
       required final int weight,
-      required final String type,
+      required final List<PokemonTypes> type,
       final bool captured}) = _$PokemonImpl;
 
   factory _Pokemon.fromJson(Map<String, dynamic> json) = _$PokemonImpl.fromJson;
@@ -264,7 +271,7 @@ abstract class _Pokemon implements Pokemon {
   @override
   int get weight;
   @override
-  String get type;
+  List<PokemonTypes> get type;
   @override
   bool get captured;
   @override

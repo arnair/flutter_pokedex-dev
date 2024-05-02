@@ -1,3 +1,4 @@
 class Fonts {
-  static const String primary = 'Quicksand-Regular';
+  static const String primary = 'Lato';
+  static const String secondary = 'PokemonGb';
 }
