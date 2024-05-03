@@ -6,6 +6,7 @@ import 'package:flutter_pokedex/constants/sizes.dart';
 import 'package:flutter_pokedex/constants/textstyles.dart';
 import 'package:flutter_pokedex/features/pokemon/application/pokemon_service.dart';
 import 'package:flutter_pokedex/features/pokemon/domain/pokemon_model.dart';
+import 'package:flutter_pokedex/features/search/presentation/search_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -19,14 +20,19 @@ class PokemonScreen extends ConsumerStatefulWidget {
 class PokemonScreenState extends ConsumerState<PokemonScreen> {
   late Pokemon pokemon;
   bool _isButtonDisabled = false;
+  bool captured = false;
   @override
   void initState() {
     super.initState();
     pokemon = widget.pokemon;
+    captured = pokemon.captured;
   }
 
   @override
   Widget build(BuildContext context) {
+    if ((MediaQuery.of(context).size.width) > webWidth) {
+      pokemon = ref.watch(searchControllerProvider) ?? widget.pokemon;
+    }
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.black,
@@ -124,9 +130,10 @@ class PokemonScreenState extends ConsumerState<PokemonScreen> {
                   ? null
                   : () async {
                       setState(() {
+                        captured = !captured;
                         _isButtonDisabled = true;
                       });
-                      pokemon = pokemon.copyWith(captured: !pokemon.captured);
+                      pokemon = pokemon.copyWith(captured: captured);
                       await ref
                           .read(pokemonServiceProvider.notifier)
                           .updatePokemon(pokemon: pokemon);
@@ -138,7 +145,7 @@ class PokemonScreenState extends ConsumerState<PokemonScreen> {
                             backgroundColor: Palette.yellow,
                             duration: const Duration(seconds: 1),
                             content: Text(
-                              pokemon.captured
+                              captured
                                   ? 'Pokemon ${pokemon.name} captured!'
                                   : 'Pokemon ${pokemon.name} released!',
                               style: AppTextStyle.titleBlack,
@@ -152,13 +159,12 @@ class PokemonScreenState extends ConsumerState<PokemonScreen> {
                       });
                     },
               style: ElevatedButton.styleFrom(
-                backgroundColor:
-                    pokemon.captured ? context.colorTheme : Colors.white,
+                backgroundColor: captured ? context.colorTheme : Colors.white,
                 minimumSize: const Size(200, 50),
               ),
               child: Text(
-                !pokemon.captured ? 'Capture' : 'Release',
-                style: !pokemon.captured
+                !captured ? 'Capture' : 'Release',
+                style: !captured
                     ? AppTextStyle.titleBlack
                     : AppTextStyle.titleWhite,
               ))

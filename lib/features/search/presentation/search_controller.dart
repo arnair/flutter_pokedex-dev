@@ -1,5 +1,20 @@
 import 'package:flutter_pokedex/features/pokemon/domain/pokemon_model.dart';
 import 'package:flutter_pokedex/features/pokemon/domain/pokemon_types_enum.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'search_controller.g.dart';
+
+@Riverpod(keepAlive: true)
+class SearchController extends _$SearchController {
+  @override
+  Pokemon? build() {
+    return null;
+  }
+
+  updatePokemonSelected({required Pokemon pokemon}) {
+    state = pokemon;
+  }
+}
 
 List<Pokemon> filterPokemonList({
   required List<Pokemon> pokemonList,
@@ -38,5 +53,3 @@ List<Pokemon> filterPokemonList({
 
   return filteredList;
 }
-
-changeColor() {}

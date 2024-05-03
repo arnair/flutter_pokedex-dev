@@ -17,7 +17,9 @@ class SearchSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 14),
+      padding: const EdgeInsets.only(
+        top: 14,
+      ),
       child: SizedBox(
         height: containerHeight,
         width: containerWidth,
@@ -33,7 +35,7 @@ class SearchSwitch extends StatelessWidget {
             AnimatedPositioned(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
-              left: !showCaptured ? 0 : (containerWidth / 2) - 20,
+              left: !showCaptured ? 0 : (containerWidth / 2),
               child: Container(
                 margin: const EdgeInsets.only(top: 1),
                 decoration: BoxDecoration(

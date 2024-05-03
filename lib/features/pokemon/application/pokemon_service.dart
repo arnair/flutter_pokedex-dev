@@ -16,13 +16,13 @@ part 'pokemon_service.g.dart';
 class PokemonService extends _$PokemonService {
   @override
   Stream<List<Pokemon>> build() {
-    return _globalPokemonList.stream;
+    return globalPokemonList.stream;
   }
 
-  final _globalPokemonList = InMemoryStore<List<Pokemon>>([]);
+  final globalPokemonList = InMemoryStore<List<Pokemon>>([]);
 
   updateGlobalPokemonList({required List<Pokemon> newGlobalPokemonList}) {
-    _globalPokemonList.value = newGlobalPokemonList;
+    globalPokemonList.value = newGlobalPokemonList;
     List<Pokemon> capturedList = newGlobalPokemonList
         .where(
           (element) => element.captured == true,
@@ -68,7 +68,7 @@ class PokemonService extends _$PokemonService {
   }
 
   Future updatePokemon({required Pokemon pokemon}) async {
-    List<Pokemon> newGlobalPokemonList = _globalPokemonList.value;
+    List<Pokemon> newGlobalPokemonList = globalPokemonList.value;
     int index = newGlobalPokemonList.indexWhere(
       (element) => element.name == pokemon.name,
     );
