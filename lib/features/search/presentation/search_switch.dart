@@ -5,7 +5,7 @@ import 'package:flutter_pokedex/constants/textstyles.dart';
 class SearchSwitch extends StatelessWidget {
   final bool showCaptured;
   final void Function() toggleCaptured;
-  final double containerWidth = 400.0;
+  final double containerWidth = 360.0;
   final double containerHeight = 40.0;
 
   const SearchSwitch({
