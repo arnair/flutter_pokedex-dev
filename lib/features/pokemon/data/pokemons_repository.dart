@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_pokedex/features/pokemon/domain/pokemon_model.dart';
@@ -22,36 +23,37 @@ class PokemonsRepository {
   }
 
   Future<Pokemon> fetchPokemon(Uri url) async {
-    try {
-      final response = await http.get(url);
+    final response = await http.get(url);
 
-      if (response.statusCode == 200) {
-        return Pokemon.fromApiJson(jsonDecode(response.body));
-      } else {
-        throw Exception('Error fetching Pokemon: ${response.statusCode}');
-      }
-    } catch (error) {
-      throw Exception('Error fetching Pokemon: $error');
+    if (response.statusCode == 200) {
+      return Pokemon.fromApiJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Error fetching Pokemon: ${response.statusCode}');
     }
   }
 
   Future<List<String>> fetchPokemonSpeciesNames(
       {required String regionName}) async {
-    final response = await http
-        .get(Uri.parse('https://pokeapi.co/api/v2/pokedex/$regionName/'));
+    try {
+      final response = await http
+          .get(Uri.parse('https://pokeapi.co/api/v2/pokedex/$regionName/'));
 
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final pokemonEntries = data['pokemon_entries'] as List;
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final pokemonEntries = data['pokemon_entries'] as List;
 
-      final speciesNames = pokemonEntries
-          .map((entry) => entry['pokemon_species']['name'] as String)
-          .toList();
+        final speciesNames = pokemonEntries
+            .map((entry) => entry['pokemon_species']['name'] as String)
+            .toList();
 
-      return speciesNames;
-    } else {
-      // Handle error
-      throw Exception('Failed to load Pokemon data');
+        return speciesNames;
+      } else {
+        throw Exception('Failed to load Pokemon data');
+      }
+    } on SocketException {
+      throw Exception('No internet connection');
+    } catch (e) {
+      throw Exception('Failed to load Pokemon data: $e');
     }
   }
 }

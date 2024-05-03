@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pokedex/constants/fonts.dart';
 import 'package:flutter_pokedex/constants/palette.dart';
 import 'package:flutter_pokedex/constants/textstyles.dart';
 

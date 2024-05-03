@@ -16,6 +16,7 @@ class Pokedex extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final goRouter = ref.watch(goRouterProvider);
+    final customTheme = ref.watch(customThemeProvider);
     return MaterialApp.router(
       restorationScopeId: 'app',
       routerConfig: goRouter,

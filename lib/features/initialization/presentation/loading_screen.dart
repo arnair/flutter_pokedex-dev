@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flutter_pokedex/features/search/presentation/start/loading_controller.dart';
+import 'package:flutter_pokedex/common_widgets/error_alert.dart';
+import 'package:flutter_pokedex/features/pokemon/application/pokemon_service.dart';
 import 'package:flutter_pokedex/routing/app_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -40,9 +41,20 @@ class _LoadingAnimationState extends ConsumerState<LoadingScreen>
   }
 
   loadData() async {
-    bool loaded =
-        await ref.read(loadingScreenControllerProvider.notifier).setPokemons();
-    if (loaded && mounted) {
+    try {
+      await ref.read(pokemonServiceProvider.notifier).setPokemonList();
+    } on Exception catch (e) {
+      if (mounted) {
+        bool tryAgain = await errorAlert(
+                context, e.toString().replaceAll('Exception:', '')) ??
+            false;
+        if (tryAgain) {
+          loadData();
+        }
+      }
+      return;
+    }
+    if (mounted) {
       context.pushReplacementNamed(AppRoute.seach.name);
     }
   }
@@ -50,6 +62,7 @@ class _LoadingAnimationState extends ConsumerState<LoadingScreen>
   @override
   Widget build(BuildContext context) {
     FlutterNativeSplash.remove();
+
     return Scaffold(
       body: Center(
         child: AnimatedBuilder(

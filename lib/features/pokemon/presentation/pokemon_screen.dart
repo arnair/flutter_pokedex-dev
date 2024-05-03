@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pokedex/common_widgets/button_type.dart';
+import 'package:flutter_pokedex/constants/custom_theme.dart';
+import 'package:flutter_pokedex/constants/palette.dart';
 import 'package:flutter_pokedex/constants/sizes.dart';
 import 'package:flutter_pokedex/constants/textstyles.dart';
+import 'package:flutter_pokedex/features/pokemon/application/pokemon_service.dart';
 import 'package:flutter_pokedex/features/pokemon/domain/pokemon_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -13,6 +17,14 @@ class PokemonScreen extends ConsumerStatefulWidget {
 }
 
 class PokemonScreenState extends ConsumerState<PokemonScreen> {
+  late Pokemon pokemon;
+  bool _isButtonDisabled = false;
+  @override
+  void initState() {
+    super.initState();
+    pokemon = widget.pokemon;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +37,7 @@ class PokemonScreenState extends ConsumerState<PokemonScreen> {
         ),
         centerTitle: true,
         title: Text(
-          '${widget.pokemon.id}: ${widget.pokemon.name}',
+          '${pokemon.id}: ${pokemon.name}',
           style: AppTextStyle.titleWhite,
         ),
       ),
@@ -38,7 +50,7 @@ class PokemonScreenState extends ConsumerState<PokemonScreen> {
               shape: BoxShape.circle,
               gradient: RadialGradient(
                 colors: [
-                  widget.pokemon.type.first.color,
+                  pokemon.type.first.color,
                   Colors.black,
                 ],
               ),
@@ -46,14 +58,14 @@ class PokemonScreenState extends ConsumerState<PokemonScreen> {
             child: Stack(
               children: [
                 Hero(
-                  tag: widget.pokemon.id,
+                  tag: pokemon.id,
                   child: Align(
                     alignment: Alignment.center,
                     child: SizedBox(
                       height: 250,
                       width: 250,
                       child: SvgPicture.network(
-                        widget.pokemon.photo,
+                        pokemon.photo,
                       ),
                     ),
                   ),
@@ -72,7 +84,7 @@ class PokemonScreenState extends ConsumerState<PokemonScreen> {
                               color: Colors.white,
                             ),
                             gapW8,
-                            Text(widget.pokemon.height.toString(),
+                            Text(pokemon.height.toString(),
                                 style: AppTextStyle.titleWhite),
                           ],
                         ),
@@ -84,7 +96,7 @@ class PokemonScreenState extends ConsumerState<PokemonScreen> {
                               color: Colors.white,
                             ),
                             gapW8,
-                            Text(widget.pokemon.weight.toString(),
+                            Text(pokemon.weight.toString(),
                                 style: AppTextStyle.titleWhite),
                           ],
                         ),
@@ -97,20 +109,8 @@ class PokemonScreenState extends ConsumerState<PokemonScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ...widget.pokemon.type.map((e) => Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            margin:
-                                const EdgeInsets.only(right: 10, bottom: 30),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: e.color),
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(10))),
-                            child: Text(
-                              e.name,
-                              style: AppTextStyle.normalWhite
-                                  .copyWith(color: e.color),
-                            ),
+                      ...pokemon.type.map((e) => LabelType(
+                            pokemonType: e,
                           ))
                     ],
                   ),
@@ -120,13 +120,47 @@ class PokemonScreenState extends ConsumerState<PokemonScreen> {
           ),
           gapH20,
           ElevatedButton(
-              onPressed: () {},
+              onPressed: _isButtonDisabled
+                  ? null
+                  : () async {
+                      setState(() {
+                        _isButtonDisabled = true;
+                      });
+                      pokemon = pokemon.copyWith(captured: !pokemon.captured);
+                      await ref
+                          .read(pokemonServiceProvider.notifier)
+                          .updatePokemon(pokemon: pokemon);
+                      if (context.mounted) {
+                        final scaffoldMessenger = ScaffoldMessenger.of(context);
+                        scaffoldMessenger.removeCurrentSnackBar();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: Palette.yellow,
+                            duration: const Duration(seconds: 1),
+                            content: Text(
+                              pokemon.captured
+                                  ? 'Pokemon ${pokemon.name} captured!'
+                                  : 'Pokemon ${pokemon.name} released!',
+                              style: AppTextStyle.titleBlack,
+                            ),
+                          ),
+                        );
+                      }
+
+                      setState(() {
+                        _isButtonDisabled = false;
+                      });
+                    },
               style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    pokemon.captured ? context.colorTheme : Colors.white,
                 minimumSize: const Size(200, 50),
               ),
-              child: const Text(
-                'Capture',
-                style: AppTextStyle.titleBlack,
+              child: Text(
+                !pokemon.captured ? 'Capture' : 'Release',
+                style: !pokemon.captured
+                    ? AppTextStyle.titleBlack
+                    : AppTextStyle.titleWhite,
               ))
         ],
       ),

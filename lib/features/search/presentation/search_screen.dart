@@ -1,11 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_pokedex/common_widgets/async_value_widget.dart';
+import 'package:flutter_pokedex/common_widgets/pokem_type_alert.dart';
 import 'package:flutter_pokedex/constants/palette.dart';
-import 'package:flutter_pokedex/constants/sizes.dart';
 import 'package:flutter_pokedex/constants/textstyles.dart';
 import 'package:flutter_pokedex/features/pokemon/application/pokemon_service.dart';
 import 'package:flutter_pokedex/features/pokemon/domain/pokemon_model.dart';
@@ -50,17 +46,17 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
           },
         ),
         bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(50),
-            child: !showCaptured
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 25.0, vertical: 1),
-                    child: TextField(
-                      cursorColor: Colors.white,
-                      style: AppTextStyle.normalWhite,
-                      controller: _searchController,
-                      onChanged: (value) => setState(() {}),
-                      decoration: InputDecoration(
+          preferredSize: const Size.fromHeight(50),
+          child: !showCaptured
+              ? Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 25.0, vertical: 1),
+                  child: TextField(
+                    cursorColor: Colors.white,
+                    style: AppTextStyle.normalWhite,
+                    controller: _searchController,
+                    onChanged: (value) => setState(() {}),
+                    decoration: InputDecoration(
                         hintText: 'Search pokémons...',
                         hintStyle: const TextStyle(color: Colors.white),
                         icon: const Icon(
@@ -79,11 +75,50 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
                                   });
                                 },
                               )
-                            : const SizedBox(),
+                            : const SizedBox()),
+                  ),
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              orderABC ? Palette.yellow : Colors.white,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            orderABC = !orderABC;
+                          });
+                        },
+                        label: const Text(
+                          'order',
+                          style: AppTextStyle.normalBlack,
+                        ),
+                        icon: const Icon(
+                          Icons.sort_by_alpha,
+                          color: Colors.black,
+                        )),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: typeSelected != null
+                            ? Palette.yellow
+                            : Colors.white,
                       ),
-                    ),
-                  )
-                : const SizedBox()),
+                      onPressed: () async {
+                        typeSelected = await pokemonTypeAlert(context);
+                        setState(() {});
+                      },
+                      child: Text(
+                        typeSelected == null
+                            ? 'Filter by type'
+                            : 'Filtered by ${typeSelected!.name}',
+                        style: AppTextStyle.normalBlack,
+                      ),
+                    )
+                  ],
+                ),
+        ),
       ),
       body: AsyncValueWidget<List<Pokemon>>(
           value: pokemonList,

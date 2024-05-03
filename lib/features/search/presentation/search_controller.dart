@@ -8,28 +8,35 @@ List<Pokemon> filterPokemonList({
   required bool orderABC,
   required PokemonTypes? typeSelected,
 }) {
+  if (!showCaptured && searchText.isEmpty && typeSelected == null) {
+    return pokemonList;
+  }
+
   List<Pokemon> filteredList = pokemonList;
 
-  if (searchText.isNotEmpty) {
-    filteredList = filteredList
-        .where((element) =>
-            element.name.toLowerCase().startsWith(searchText.toLowerCase()))
-        .toList();
-  }
+  if (!showCaptured) {
+    if (searchText.isNotEmpty) {
+      filteredList = filteredList
+          .where((pokemon) =>
+              pokemon.name.toLowerCase().startsWith(searchText.toLowerCase()))
+          .toList();
+    }
+  } else {
+    filteredList = filteredList.where((pokemon) => pokemon.captured).toList();
 
-  if (showCaptured) {
-    filteredList = filteredList.where((element) => element.captured).toList();
-  }
-
-  if (typeSelected != null) {
-    filteredList = filteredList
-        .where((element) => element.type.contains(typeSelected))
-        .toList();
-  }
-
-  if (orderABC) {
-    filteredList.sort((a, b) => a.name.compareTo(b.name));
+    if (typeSelected != null) {
+      filteredList = filteredList
+          .where((pokemon) => pokemon.type.contains(typeSelected))
+          .toList();
+    }
+    if (orderABC) {
+      filteredList.sort((a, b) => a.name.compareTo(b.name));
+    } else {
+      filteredList.sort((a, b) => a.id.compareTo(b.id));
+    }
   }
 
   return filteredList;
 }
+
+changeColor() {}

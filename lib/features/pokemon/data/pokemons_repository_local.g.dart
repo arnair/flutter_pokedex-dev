@@ -1,26 +1,28 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'pokemon_service.dart';
+part of 'pokemons_repository_local.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$pokemonServiceHash() => r'598aca38f431f645d4cd5bf5b2c9767ba36540e3';
+String _$pokemonsRepositoryLocalHash() =>
+    r'631f4d06e822575c0ac5d898161821093fe5c318';
 
-/// See also [PokemonService].
-@ProviderFor(PokemonService)
-final pokemonServiceProvider =
-    StreamNotifierProvider<PokemonService, List<Pokemon>>.internal(
-  PokemonService.new,
-  name: r'pokemonServiceProvider',
+/// See also [pokemonsRepositoryLocal].
+@ProviderFor(pokemonsRepositoryLocal)
+final pokemonsRepositoryLocalProvider =
+    AutoDisposeProvider<PokemonsRepositoryLocal>.internal(
+  pokemonsRepositoryLocal,
+  name: r'pokemonsRepositoryLocalProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$pokemonServiceHash,
+      : _$pokemonsRepositoryLocalHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$PokemonService = StreamNotifier<List<Pokemon>>;
+typedef PokemonsRepositoryLocalRef
+    = AutoDisposeProviderRef<PokemonsRepositoryLocal>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

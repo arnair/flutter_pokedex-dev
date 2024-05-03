@@ -1,7 +1,7 @@
 import 'package:flutter_pokedex/features/pokemon/domain/pokemon_model.dart';
 import 'package:flutter_pokedex/features/pokemon/presentation/pokemon_screen.dart';
 import 'package:flutter_pokedex/features/search/presentation/search_screen.dart';
-import 'package:flutter_pokedex/features/search/presentation/start/loading_screen.dart';
+import 'package:flutter_pokedex/features/initialization/presentation/loading_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'not_found_screen.dart';
